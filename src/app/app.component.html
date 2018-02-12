@@ -12,7 +12,7 @@
                    (change)="fileChangeListener($event)"
                    accept=".json" />
             <div style="width:100%; display: flex">
-                <a class="btn btn-info" ng-transclude="" role="menuitem" (click)="generateDownloadJsonUri()" [href]="downloadJsonHref" download="download.json"> Exportar JSON <div class="md-ripple-container" style=""></div></a>
+                <a class="btn btn-warning" ng-transclude="" role="menuitem" (click)="generateDownloadJsonUri()" [href]="downloadJsonHref" download="download.json"> Exportar JSON <div class="md-ripple-container" style=""></div></a>
                 <button type="button" class="btn btn-default btn-xs inline" (click)="showAddProject()">
                     <i class="fa fa-plus"></i>
                 </button>
@@ -94,7 +94,7 @@
     </div>
 
 
-    <div>
+    <div class="board">
         <div *ngFor="let cardlist of cardlists" [style]="styles()">
             <cardlist [item]="cardlist">
             </cardlist>

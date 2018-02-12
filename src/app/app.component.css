@@ -35,6 +35,11 @@ header {
     z-index: 100;
 }
 
+.board {
+    overflow: hidden;
+    display: flex;
+}
+
 .fullScreentransparent {
     position: absolute;
     clear: both;

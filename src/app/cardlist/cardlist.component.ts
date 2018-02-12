@@ -64,9 +64,10 @@ export class CardListComponent implements OnInit {
         //los card list y filtrar o lo que sea por orden.
         //luego comprobar si el siguiente tiene subcardlist
         this.allowedDropFrom = [];
-        this.dataService.getCardListsByProject(this.item.projectId).subscribe(p => {
+        this.dataService.getCardLists().subscribe(p => {
+            let carp = p.filter(cardlist => cardlist.projectId == (this.item.projectId))
             this.allowedDropFrom = [];
-            p.forEach(p1 => {
+            carp.forEach(p1 => {
                 if (p1.order == this.item.order - 1)
                     this.allowedDropFrom.push(p1.$key);
                 //Hasta aqui permite el pase de cardlist normales
@@ -147,6 +148,17 @@ export class CardListComponent implements OnInit {
         
     }
 
+    resetOrder(cardli) {
+        console.log("es este")
+        let ord = 0;
+        cardli.forEach(c => {
+            console.log(c.order);
+            if (c.order != ord)
+                console.log(c.order)
+                this.dataService.updateCardList(c.$key, { order: ord })
+            ord++;
+        })
+    }
 
     addCard(
         name: string,
@@ -173,6 +185,7 @@ export class CardListComponent implements OnInit {
                 this.dataService.deleteTask(task.$key);
             })
         });
+        
         this.loadCardWithSublists();
     }
     //ya tengo cards por lo que otro subcribe seria innecesario, me vale con recorre el arra
@@ -212,6 +225,10 @@ export class CardListComponent implements OnInit {
             this.dataService.deleteSubCard(sub.$key);
         })
         this.dataService.deleteCardlist(this.item.$key);
+        this.dataService.getCardLists().subscribe(p => {
+            var carp = p.filter(cardlist => cardlist.projectId == (this.item.projectId))
+            this.resetOrder(carp);
+        });
     }
 
     cardDropped(ev) {

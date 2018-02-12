@@ -233,7 +233,7 @@ export class AppComponent implements OnInit {
     }
 
     styles() {
-        let sty = `padding-right: 15px; padding-left: 15px; width:${100 / this.cardlists.length}%; float: left`;
+        let sty = `width:${100 / this.cardlists.length}%; float: left`;
         return this.sanitizer.bypassSecurityTrustStyle(sty);
     }
     //Mostrar modal project
