@@ -35,14 +35,16 @@
                         </div>
                     </h4>
                 </div>
-                <div class="form-group formfields">
-                    <label for="projectname">Name</label>
-                    <input type="text" class="form-control" id="projectname" placeholder="Project name" [(ngModel)]="projectname">
-                    <!--<input type="text" class="form-control" id="taskdescription" placeholder="description" [(ngModel)]="carddescription">-->
-                </div>
-                <div class="text-center">
-                    <button type="button" class="btn btn-primary" (click)="saveAddProject()">CREATE</button>
-                </div>
+                <form #form="ngForm">
+                    <div class="form-group formfields">
+                        <label for="projectname">Name</label>
+                        <input name="name" type="text" class="form-control" id="projectname" placeholder="Project name" [(ngModel)]="projectname" required>
+                        <!--<input type="text" class="form-control" id="taskdescription" placeholder="description" [(ngModel)]="carddescription">-->
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" (click)="saveAddProject()" [disabled]="!form.valid">CREATE</button>
+                    </div>
+                </form>
             </div>
         </div>
     </header>
@@ -72,18 +74,18 @@
                     </div>
                 </h4>
             </div>
-            <form #form="ngForm" class="form-group formfields">
+            <form #form="ngForm">
+                <div class="form-group formfields">
+                    <label for="cardlistname">Name</label>
+                    <input type="text" class="form-control" id="cardlistname" placeholder="Card list name" [(ngModel)]="cardlistname" name="name" #zip="ngModel" required>
 
-                <label for="cardlistname">Name</label>
-                <input type="text" class="form-control" id="cardlistname" placeholder="Card list name" [(ngModel)]="cardlistname" name="name" #zip="ngModel" required>
-                
-                <label for="cardlistcolor">Color</label>
-                <select class="form-control" id="cardlistcolor" placeholder="Card list color" [(ngModel)]="cardlistcolor" required name="color" #zip="ngModel">
-                    <option *ngFor="let color of css_color_names" [ngValue]="color">{{color}}</option>
-                </select>
-                <label for="cardlistorder">Order</label>
-                <input type="number" class="form-control" id="cardlistorder" placeholder="Card list order" [(ngModel)]="cardlistorder" min="0" [max]="cardlists.length" pattern="" required name="order" #zip="ngModel">
-
+                    <label for="cardlistcolor">Color</label>
+                    <select class="form-control" id="cardlistcolor" placeholder="Card list color" [(ngModel)]="cardlistcolor" required name="color" #zip="ngModel">
+                        <option *ngFor="let color of css_color_names" [ngValue]="color">{{color}}</option>
+                    </select>
+                    <label for="cardlistorder">Order</label>
+                    <input type="number" class="form-control" id="cardlistorder" placeholder="Card list order" [(ngModel)]="cardlistorder" min="0" [max]="cardlists.length" pattern="" required name="order" #zip="ngModel">
+                </div>
                 <!--<input type="text" class="form-control" id="taskdescription" placeholder="description" [(ngModel)]="carddescription">-->
 
                 <div class="text-center">

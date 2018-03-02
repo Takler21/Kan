@@ -16,9 +16,9 @@
     </div>
 
 
-    <div *ngIf="!existSub" class=""  dnd-droppable
-     [allowDrop]="allowDropFunction()"
-     (onDropSuccess)="cardDropped($event)">
+    <div *ngIf="!existSub" class="" dnd-droppable
+         [allowDrop]="allowDropFunction()"
+         (onDropSuccess)="cardDropped($event)">
         <ul class="list-group">
             <li *ngFor="let card of cards" class="list-group-item panel card" [style.border-left-color]="item.color"
                 dnd-draggable
@@ -33,81 +33,86 @@
 
 
     <ng-container *ngIf="existSub" class="">
-        <div *ngFor="let subcardlist of subcardlists"  dnd-droppable
-     [allowDrop]="allowDropFunction()"
-     (onDropSuccess)="cardDropped2($event, subcardlist)">
+        <div *ngFor="let subcardlist of subcardlists" dnd-droppable
+             [allowDrop]="allowDropFunction()"
+             (onDropSuccess)="cardDropped2($event, subcardlist)">
             <div class="panel-heading">
-                <div>
-                    <i class="fa fa-1 fa-circle inline" aria-hidden="true" [style.color]="subcardlist.color"></i>
+                <div style="display: inline-flex;">
+                    <div class="carret" (click)="clickCarret(subcardlist)">
+                        <i class="fa fa-caret-right" *ngIf="!subcardlist.isExpanded"></i>
+                        <i class="fa fa-caret-down" *ngIf="subcardlist.isExpanded"></i>
+                    </div>
                     <span class="inline listTitle">
-                        {{subcardlist.name}}
+                        	&nbsp;{{subcardlist.name}}
                     </span>
                     <button type="button" class="btn btn-default btn-xs inline" (click)="showAddCard(subcardlist.$key)">
                         <i class="fa fa-plus"></i>
                     </button>
-                        <a style="float:right; color:black" class="fa fa-trash" (click)="deleteSublist(subcardlist)"></a>
                 </div>
-            </div>
+                <a style="float:right; color:black" class="fa fa-trash" (click)="deleteSublist(subcardlist)"></a>
 
-            <ul class="list-group">
-                <ng-container *ngFor="let card of cards">
-                    <li *ngIf="card.cardListId == subcardlist.$key" class="list-group-item panel card" [style.border-left-color]="item.color"
-                        dnd-draggable
-                        [dragData]="card"
-                        [dragEnabled]="allowDragFunction(card)">
-                        <card [item]="card">
-                            <span class="inline-block glyphicon glyphicon-remove link" style="color:red" (click)="deleteCard(card)"></span>
-                        </card>
-                    </li>
-                </ng-container>
-            </ul>
+            </div>
+            <div *ngIf="subcardlist.isExpanded">
+                <ul class="list-group">
+                    <ng-container *ngFor="let card of cards">
+                        <li *ngIf="card.cardListId == subcardlist.$key" class="list-group-item panel card" [style.border-left-color]="item.color"
+                            dnd-draggable
+                            [dragData]="card"
+                            [dragEnabled]="allowDragFunction(card)">
+                            <card [item]="card">
+                                <span class="inline-block glyphicon glyphicon-remove link" style="color:red" (click)="deleteCard(card)"></span>
+                            </card>
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
         </div>
     </ng-container>
-    </div>
+</div>
 
-    <div class="fullScreen" *ngIf="toShowAddCard" (click)="cancelAddCard()">
-    </div>
-    <div class="fullScreentransparent" *ngIf="toShowAddCard">
-        <div class="panel panel-default createCard well">
-            <div class="panel-heading" [style.background-color]="item.color">
-                <h4 class="createTitle">
-                    New task - {{ item.name }}
-                    <div class="pull-right link" (click)="cancelAddCard()">
-                        <i class="fa fa-window-close"></i>
-                    </div>
-                </h4>
-            </div>
-            <div class="form-group formfields">
-                <label for="taskname">Name</label>
-                <input type="text" class="form-control" id="taskname" placeholder="task name" [(ngModel)]="cardname">
-                <label for="taskdescription">Description</label>
-                <textarea cols="39" rows="6" class="form-control" id="taskdescription" placeholder="description" [(ngModel)]="carddescription"></textarea>
-                <!--<input type="text" class="form-control" id="taskdescription" placeholder="description" [(ngModel)]="carddescription">-->
-            </div>
-            <div class="text-center">
-                <button type="button" class="btn btn-primary" (click)="saveAddCard(fatherIdCard)">CREATE</button>
-            </div>
+<div class="fullScreen" *ngIf="toShowAddCard" (click)="cancelAddCard()">
+</div>
+<div class="fullScreentransparent" *ngIf="toShowAddCard">
+    <div class="panel panel-default createCard well">
+        <div class="panel-heading" [style.background-color]="item.color">
+            <h4 class="createTitle">
+                New task - {{ item.name }}
+                <div class="pull-right link" (click)="cancelAddCard()">
+                    <i class="fa fa-window-close"></i>
+                </div>
+            </h4>
+        </div>
+        <div class="form-group formfields">
+            <label for="taskname">Name</label>
+            <input type="text" class="form-control" id="taskname" placeholder="task name" [(ngModel)]="cardname">
+            <label for="taskdescription">Description</label>
+            <textarea cols="39" rows="6" class="form-control" id="taskdescription" placeholder="description" [(ngModel)]="carddescription"></textarea>
+            <!--<input type="text" class="form-control" id="taskdescription" placeholder="description" [(ngModel)]="carddescription">-->
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-primary" (click)="saveAddCard(fatherIdCard)">CREATE</button>
         </div>
     </div>
+</div>
 
-    <div class="fullScreen" *ngIf="toShowAddSubCardList" (click)="cancelAddSubCardList()">
-    </div>
-    <div class="fullScreentransparent" *ngIf="toShowAddSubCardList">
-        <div class="panel panel-default createCard well">
-            <div class="panel-heading" [style.background-color]="item.color">
-                <h4 class="createTitle">
-                    New Sublist - {{ item.name }}
-                    <div class="pull-right link" (click)="cancelAddSubCardList()">
-                        <i class="fa fa-window-close"></i>
-                    </div>
-                </h4>
-            </div>
-            <div class="form-group formfields">
-                <label for="taskname">Name</label>
-                <input type="text" class="form-control" id="taskname" placeholder="task name" [(ngModel)]="subcardlistname">
-            </div>
-            <div class="text-center">
-                <button type="button" class="btn btn-primary" (click)="saveAddSubCardList(fatherIdCard)">CREATE</button>
-            </div>
+<div class="fullScreen" *ngIf="toShowAddSubCardList" (click)="cancelAddSubCardList()">
+</div>
+<div class="fullScreentransparent" *ngIf="toShowAddSubCardList">
+    <div class="panel panel-default createCard well">
+        <div class="panel-heading" [style.background-color]="item.color">
+            <h4 class="createTitle">
+                New Sublist - {{ item.name }}
+                <div class="pull-right link" (click)="cancelAddSubCardList()">
+                    <i class="fa fa-window-close"></i>
+                </div>
+            </h4>
+        </div>
+        <div class="form-group formfields">
+            <label for="taskname">Name</label>
+            <input type="text" class="form-control" id="taskname" placeholder="task name" [(ngModel)]="subcardlistname">
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-primary" (click)="saveAddSubCardList(fatherIdCard)">CREATE</button>
         </div>
     </div>
+</div>

@@ -120,6 +120,10 @@ export class DataService {
         return this.subcardslists.push(cardlist);
     }
 
+    updateSubCardList(key, updSubCardList) {
+        return this.subcardslists.update(key, updSubCardList);
+    }
+
     getSubCardList() {
         this.subcardslists = this.af.database.list('/subcardlist', {
             query: {

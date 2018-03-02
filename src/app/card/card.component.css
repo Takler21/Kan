@@ -21,7 +21,7 @@
     cursor: pointer;
 }
 .titleText{
-    display: inline-block;
+    display: inline;
 }
 .modal-header {
     padding:9px 15px;

@@ -46,17 +46,18 @@ export class CardComponent implements OnInit {
             });
         this.exportService.getJsonExport();
     }
-
+    //elimina la tarea de la carta
     deleteTask(task){
         //console.log(task);
         this.dataService.deleteTask(task.$key);
         //this.childModal.show();
         this.exportService.getJsonExport();
     }
+
     public hideChildModal():void {
         this.childModal.hide();
     }
-
+    //Cambia el estado de la tarea si esta incompleta a completa y viceversa
     changeTaskCompleted(task){
         //console.log(task);
         this.dataService.updateTask(task.$key, { isCompleted: task.isCompleted});

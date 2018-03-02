@@ -99,8 +99,6 @@ export class CardListComponent implements OnInit {
 
     loadCardWithSublists() {
 
-        //tal vez saldria más rentable si no uso concat
-        //y comparo los valores aunque sea con un bucle.
         if (!this.cards || this.existSub)
             this.cards = [];
         this.subcardlists.forEach(sub => {
@@ -133,6 +131,7 @@ export class CardListComponent implements OnInit {
     cancelAddCard() {
         this.toShowAddCard = false;
     }
+
     saveAddCard() {
         //console.log('save card');
         this.addCard(
@@ -145,16 +144,14 @@ export class CardListComponent implements OnInit {
             this.loadCardWithSublists();
         }
         this.toShowAddCard = false;
-        
     }
 
     resetOrder(cardli) {
-        console.log("es este")
         let ord = 0;
         cardli.forEach(c => {
-            console.log(c.order);
+            //console.log(c.order);
             if (c.order != ord)
-                console.log(c.order)
+                //console.log(c.order)
                 this.dataService.updateCardList(c.$key, { order: ord })
             ord++;
         })
@@ -230,6 +227,11 @@ export class CardListComponent implements OnInit {
             this.resetOrder(carp);
         });
     }
+    //Funcion para regular el desplegable
+    clickCarret(subcardlist) {
+        subcardlist.isExpanded = !subcardlist.isExpanded;
+        this.dataService.updateSubCardList(subcardlist.$key, { isExpanded: subcardlist.isExpanded });
+    }
 
     cardDropped(ev) {
         let card: Card = ev.dragData;
@@ -238,7 +240,7 @@ export class CardListComponent implements OnInit {
             this.dataService.updateCard(card.$key, { cardListId: card.cardListId });
         }
     }
-
+    //Permite el cambiar de sublista en el mismo cardlist
     cardDropped2(ev, subcardlist) {
         let card: Card = ev.dragData;
         if (card.cardListId !== subcardlist.$key) {

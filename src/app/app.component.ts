@@ -73,6 +73,7 @@ export class AppComponent implements OnInit {
         this.downloadJsonHref = uri;
     }
 
+    //Actualiza los valores despues de importar el JSON
     fileChangeListener($event) {
         let reader = new FileReader();
 
@@ -182,7 +183,8 @@ export class AppComponent implements OnInit {
         });
         this.dataService.deleteProject(this.projectSelected.$key);
     }
-
+    //Al realizar algun cambio usaremos esta funcion para que el orden 
+    //de los cardlist sean numeros consecutivos
     resetOrder() {
         let ord = 0;
         this.cardlists.forEach(c => {
